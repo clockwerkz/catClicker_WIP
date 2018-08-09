@@ -15,14 +15,12 @@ const model = [
     {
         name: 'Rocky',
         img: './img/cat01.jpg',
-        count: 0,
-        selected: true
+        count: 0
     },
     {
         name: 'Sam',
         img: './img/cat02.jpg',
-        count: 5,
-        selected : false
+        count: 5
     }
 ];
 
@@ -50,27 +48,6 @@ const catView = (function() {
     }
 })();
 
-const listView = (function(DOM_Element) {
-    const listDisplay = DOM_Element;
-
-    function init(cats) {
-        
-        render(cats);
-    }
-
-    function render(cats) {
-        listDisplay.innerHTML = '';
-        cats.forEach(function(cat) {
-            listDisplay.innerHTML += '<li class="cat_list_item '+(cat.selected ? 'cat_list_item--selected' : '')+'">'+cat.name+'</li>';
-        });
-    }
-
-    return {
-        init
-    }
-
-})(document.querySelector('.cat_list_ul'));
-
 
 //Octopus
 const octopus = (function() {
@@ -78,7 +55,6 @@ const octopus = (function() {
     
     function init() {
         catView.init();
-        listView.init(model);
         catView.render(selectedCat);
     }
 
