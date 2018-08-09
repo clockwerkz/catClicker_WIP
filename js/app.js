@@ -16,7 +16,7 @@ const model = [
         name: 'Rocky',
         img: './img/cat01.jpg',
         count: 0,
-        selected: true
+        selected: false
     },
     {
         name: 'Sam',
@@ -53,9 +53,10 @@ const catView = (function() {
 const listView = (function(DOM_Element) {
     const listDisplay = DOM_Element;
 
-    function init(cats) {
-        
-        render(cats);
+    function init() {
+        listDisplay.addEventListener("click", function(e) {
+            octopus.newCatSelection(e.target.textContent);
+        });
     }
 
     function render(cats) {
@@ -66,7 +67,8 @@ const listView = (function(DOM_Element) {
     }
 
     return {
-        init
+        init,
+        render
     }
 
 })(document.querySelector('.cat_list_ul'));
@@ -77,9 +79,9 @@ const octopus = (function() {
     selectedCat = model[0];
     
     function init() {
+        listView.init();
         catView.init();
-        listView.init(model);
-        catView.render(selectedCat);
+        newCatSelection(model[0].name);
     }
 
     function catWasClicked() {
@@ -87,9 +89,18 @@ const octopus = (function() {
         catView.render(selectedCat);
     }
 
+    function newCatSelection(name) {
+        selectedCat.selected = false;
+        selectedCat = model.find((cat) =>  cat.name === name);
+        selectedCat.selected = true;
+        listView.render(model);
+        catView.render(selectedCat);
+    }
+
     return {
         init,
-        catWasClicked
+        catWasClicked,
+        newCatSelection
     }
 })();
 
