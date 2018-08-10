@@ -12,18 +12,31 @@
 
 //Model
 const model = [
-    {
-        name: 'Rocky',
-        img: './img/cat01.jpg',
-        count: 0,
-        selected: false
-    },
-    {
-        name: 'Sam',
-        img: './img/cat02.jpg',
-        count: 5,
-        selected : false
-    }
+    { name : 'Cleo',
+    count : 0,
+    altText : 'Kitten Cleo with her siblings',
+    img : './img/cat01.jpg',
+    selected : false},
+    { name : 'Clyde',
+    count : 0,
+    altText : 'Clyde being lazy on the arm of a couch',
+    img : './img/cat02.jpg',
+    selected : false},
+    { name : 'Bonnie',
+    count : 0,
+    altText : 'Bonnie looking up to see if it\'s snack time',
+    img : './img/cat03.jpg',
+    selected : false},
+    { name : 'Max',
+    count : 0,
+    altText : 'Something catches Max\'s eye while on the street',
+    img : './img/cat04.jpg',
+    selected : false},
+    { name : 'Noah',
+    count : 0,
+    altText : 'Noah playing with a string of yarn while on a plastic chair',
+    img : './img/cat05.jpg',
+    selected : false}
 ];
 
 
@@ -37,7 +50,7 @@ const catView = (function() {
 
     function render(cat) {
         catDisplay.innerHTML = `
-            <img src='${cat.img}' class='cat-img'/>
+            <img src='${cat.img}' class='cat-img' alt='${cat.altText}'/>
             <h2 class='cat-name'>${cat.name}</h2>
             </div> <!-- .entry-body -->
             <h2>Clicked: <span class="click-count">${cat.count}</span>
@@ -54,15 +67,15 @@ const listView = (function(DOM_Element) {
     const listDisplay = DOM_Element;
 
     function init() {
-        listDisplay.addEventListener("click", function(e) {
-            octopus.newCatSelection(e.target.textContent);
+        listDisplay.addEventListener('click', function(e) {
+            octopus.updateCurrentCat(e.target.textContent);
         });
     }
 
     function render(cats) {
-        listDisplay.innerHTML = '';
-        cats.forEach(function(cat) {
-            listDisplay.innerHTML += '<li class="cat_list_item '+(cat.selected ? 'cat_list_item--selected' : '')+'">'+cat.name+'</li>';
+        listDisplay.innerHTML='';
+        cats.forEach((cat)=> {
+            listDisplay.innerHTML += '<li class="cat_list_item '+ (cat.selected ? 'cat_list_item--selected' : '') +'">'+cat.name+'</li>';
         });
     }
 
@@ -79,9 +92,21 @@ const octopus = (function() {
     selectedCat = model[0];
     
     function init() {
-        listView.init();
+        selectedCat.selected = true;
         catView.init();
-        newCatSelection(model[0].name);
+        listView.init();
+        catView.render(selectedCat);
+        listView.render(model);
+    }
+
+    function updateCurrentCat(name) {
+        selectedCat.selected = false;
+        selectedCat = model.find((cat) => {
+            return cat.name === name;
+        });
+        selectedCat.selected = true;
+        listView.render(model);
+        catView.render(selectedCat);
     }
 
     function catWasClicked() {
@@ -89,23 +114,11 @@ const octopus = (function() {
         catView.render(selectedCat);
     }
 
-    function newCatSelection(name) {
-        selectedCat.selected = false;
-        selectedCat = model.find((cat) =>  cat.name === name);
-        selectedCat.selected = true;
-        listView.render(model);
-        catView.render(selectedCat);
-    }
-
     return {
         init,
         catWasClicked,
-        newCatSelection
+        updateCurrentCat
     }
 })();
 
 document.addEventListener('DOMContentLoaded', octopus.init);
-
-
-
-
