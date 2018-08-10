@@ -75,7 +75,7 @@ const listView = (function(DOM_Element) {
     function render(cats) {
         listDisplay.innerHTML='';
         cats.forEach((cat)=> {
-            listDisplay.innerHTML += '<li class="cat_list_item '+ (cat.selected ? 'cat_list_item--selected' : '') +'">'+cat.name+'</li>';
+            listDisplay.innerHTML += '<li class="cat_list_item '+( cat.selected ? 'cat_list_item--selected':'')+'">'+cat.name+'</li>';
         });
     }
 
