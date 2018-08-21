@@ -89,11 +89,12 @@ img {
 }
 
 .admin-header {
+    margin-top: 5px;
     display: flex;
     justify-content: flex-end;
 }
 
-.admin-header.display {
+.admin-header.separate-buttons {
     justify-content: space-between;
 }
 
@@ -127,7 +128,7 @@ img {
     padding: 10px 5px;
 }
 
-.admin {
+.admin-hidden {
     display: none;
 }
 
