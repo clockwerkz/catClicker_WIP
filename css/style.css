@@ -94,9 +94,6 @@ img {
     justify-content: flex-end;
 }
 
-.admin-header.separate-buttons {
-    justify-content: space-between;
-}
 
 .admin-header h3 {
     margin: 0;
@@ -105,6 +102,11 @@ img {
     border-bottom: none;
     background: #bebebe;
     font-size: 1.25rem;
+    margin-right: auto;
+}
+
+.hidden {
+    display: none;
 }
 
 .btn {
@@ -129,7 +131,7 @@ img {
 }
 
 .admin-hidden {
-    display: none;
+    
 }
 
 .form-input {

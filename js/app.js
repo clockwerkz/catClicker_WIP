@@ -43,9 +43,27 @@ const model = [
 //View(s)
 const catView = (function() {
     const catDisplay = document.querySelector('.entry-body');
-    
+    const adminBtn = document.querySelector('.admin-btn');
+    const hiddenAdminElements = document.querySelectorAll('.hidden');
+    const cancelBtn = document.querySelector('.cancel-btn');
+    const catName = document.getElementById('cat-name');
+    const catImg = document.getElementById('cat-img');
+    const catAlt = document.getElementById('cat-alt-text');
+    const catCount = document.getElementById('cat-click-count');
+    const submitBtn = document.querySelector('.submit-btn');
+
+
     function init() {
         catDisplay.addEventListener("click", octopus.catWasClicked);
+        adminBtn.addEventListener('click', _toggleAdminElements);
+        cancelBtn.addEventListener('click', function(event){
+            event.preventDefault();
+            _toggleAdminElements();
+        });
+        submitBtn.addEventListener('click', function(event){
+            event.preventDefault();
+            octopus.changeSelectedCat(catName.value, catImg.value, catAlt.value, catCount.value);
+        });
     }
 
     function render(cat) {
@@ -55,13 +73,31 @@ const catView = (function() {
             </div> <!-- .entry-body -->
             <h2>Clicked: <span class="click-count">${cat.count}</span>
         `;
+        _fillAdminForm(cat);
     }
+
+    function _fillAdminForm(cat) {
+        catName.value = cat.name;
+        catImg.value = cat.img;
+        catAlt.value = cat.altText;
+        catCount.value = cat.count;
+    }
+
+    function _toggleAdminElements() {
+        hiddenAdminElements.forEach((element)=> element.classList.toggle('hidden'));
+    }
+
 
     return {
         init,
         render
     }
 })();
+
+
+
+
+
 
 const listView = (function(DOM_Element) {
     const listDisplay = DOM_Element;
@@ -114,10 +150,21 @@ const octopus = (function() {
         catView.render(selectedCat);
     }
 
+    function changeSelectedCat(name, img, altText, count) {
+        selectedCat.name = name;
+        selectedCat.img = img;
+        selectedCat.altText = altText;
+        selectedCat.count = count;
+        catView.render(selectedCat);
+        listView.render(model);
+
+    }
+
     return {
         init,
         catWasClicked,
-        updateCurrentCat
+        updateCurrentCat,
+        changeSelectedCat
     }
 })();
 
